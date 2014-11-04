@@ -1,0 +1,291 @@
+---
+title: "Using R for Analytic Graphs: Learn How Data Visualization Can Improve Interpretation in Social Work Research"
+date: "Saturday, November 01, 2014"
+output: beamer_presentation
+---
+
+
+# Why Use R?
+
+- Free
+
+- Open Source
+
+- Easy Collaboration
+
+- Replicable Research 
+
+# Why Wouldn't You Use R?
+
+Steep(er) learning curve compared to, say, Excel or SPSS. This matters a lot if
+
+- You run statistics rarely.
+
+- You want a point and click interface. 
+
+# Where Can you Get R?
+
+- CRAN
+
+- Our Thumb Drives
+
+# Where Are We Going Today?
+
+- Graphing Model Results
+
+- Graphing Other Things
+
+# Graphing Model Results (Basic Algorithm)
+
+1. Choose a counterfactual $x_c$.
+
+2. Estimate a model to get a vector of parameters $\hat{\boldsymbol\beta}$ and the associated variance-covariance matrix, $\hat{\boldsymbol V}$.
+
+3. Draw several $\tilde{\boldsymbol\beta}$ from $\mathcal{N}(\hat{\boldsymbol\beta},\,\hat{\boldsymbol V})$, where $\mathcal{N}$ is a mulivariate normal distribution. 
+
+4. Calculate expected outcomes based on model parameters for all of your draws from $\mathcal{N}$. 
+
+5. Calculate summary statistics for each level of $x_c$.
+
+This approach will work for most of the models that social welfare researchers tend to encounter.
+
+# A Practical Example - Background
+
+## Research Question
+
+How does a child's probability of exiting the foster care system vary by child characteristics?
+
+## Multiple Permanency Outcomes
+
+Requires that we estimate a mulinomial logistic regression model.
+
+## Data in Question 
+
+- 619 Children entering out-of-home care in late 2007. 
+
+- Children's parent's were surveyed once in 2007. The survey results were then linked to administrative data which faciliated a longitudinal follow-up. 
+
+NOTE: I will simulate a data set for sharing. I cannot share the raw data. 
+
+# A practical example - Choose a counterfactual $x_c$.
+
+## Load the data 
+
+```{r}
+dat <- read.csv("dat.csv")
+```
+
+# A practical example - Choose a counterfactual $x_c$.
+
+```{r, fig.width=3, fig.height=2, warning=FALSE, message=FALSE}
+#looking at age of child at episode begin
+require(ggplot2)
+ggplot(dat, aes(x=age_eps_begin)) + 
+  geom_histogram(binwidth = 1)
+```
+
+# A practical example - Choose a counterfactual $x_c$.
+
+```{r, fig.width=6, fig.height=3, warning=FALSE, message=FALSE}
+#looking at age of child at episode begin by outcome 
+ggplot(dat, aes(x=age_eps_begin, fill=outcome)) + 
+  geom_histogram(binwidth = 1) +
+  facet_wrap(~ outcome)
+```
+
+# A practical example - Estimate a model. 
+
+## Need to estimate a statistical model to get 
+
+1. A vector of parameters $\hat{\boldsymbol\beta}$, and 
+
+2. The associated variance-covariance matrix, $\hat{\boldsymbol V}$.
+
+# A practical example - Estimate a model. 
+
+## Prep the data
+
+```{r, fig.width=6, fig.height=3, warning=FALSE, message=FALSE}
+# easy to load external packages
+# install.packages("nnet") # install once
+require(nnet)             # load every time
+
+# recode data
+levels(dat$outcome) <- c("Adoption", "Emancipation"
+                         ,"Guardianship", "Reunification")
+
+# relevel our outcome variable
+dat$outcome_rl <- relevel(dat$outcome
+                          , ref = "Emancipation")
+
+# recode to numeric
+dat$outcome_rl <- as.numeric(dat$outcome_rl)
+```
+
+# A practical example - Estimate a model. 
+
+## Run the model
+
+```{r, warning=FALSE, message=FALSE}
+# run the multinomial model
+model <- multinom(outcome_rl ~ age_eps_begin + 
+                   eps_rank 
+                 ,data = dat
+                 ,Hess = TRUE)
+```
+
+
+# A practical example - Estimate a model. 
+
+## Display of summary the model
+
+```{r, warning=FALSE, message=FALSE, }
+model
+```
+
+
+# A practical example - Estimate a model. 
+
+## Extract a vector of parameters $\hat{\boldsymbol\beta}$
+
+```{r, warning=FALSE, message=FALSE}
+#run the multinomial model
+pe <- model$wts[c(6,7,8,10,11,12,14,15,16)]
+pe[1:3]
+pe[4:6]
+pe[7:9]
+
+```
+
+# A practical example - Estimate a model. 
+
+## Extract the associated variance-covariance matrix, $\hat{\boldsymbol V}$
+
+```{r, warning=FALSE, message=FALSE}
+#run the multinomial model
+vc <- solve(model$Hess) 
+```
+
+# A practical example - Draw several $\tilde{\boldsymbol\beta}$ from $\mathcal{N}(\hat{\boldsymbol\beta},\,\hat{\boldsymbol V})$. 
+
+```{r, warning=FALSE, message=FALSE}
+#load a package which contains a multivariate normal 
+#sampling function
+require(MASS)
+#assign a variable for the number of simulations
+sims <- 10000
+#draw the indicates number of beta simulates 
+#using our extracted model data
+simbetas <- mvrnorm(sims,pe,vc)
+```
+
+
+# A practical example - Last two steps...
+
+
+- Calculate expected values for all of your draws from $\mathcal{N}$, and
+
+- Calculate summary statistics for each level of $x_c$.
+
+- Specific calculations are beyond the scope of this presentation
+
+- But the `simcf` package from Chris Adolph (political scientist at the University of Washington) will do them for us!
+
+
+# A practical example - Last two steps
+
+## Get data read for `simcf`
+
+- Re-arrange simulates to array format
+
+```{r, warning=FALSE, message=FALSE}
+simb <- array(NA, dim = c(sims,3,3))
+simb[,,1] <- simbetas[,1:3]         
+simb[,,2] <- simbetas[,4:6]
+simb[,,3] <- simbetas[,7:9]
+```
+
+- Specify range of counterfactual values
+
+```{r, warning=FALSE, message=FALSE}
+agerange <- seq(0,17,by=0.1)    
+```
+
+# A practical example - Last two steps
+
+## Get data read for `simcf`
+
+- Load `simcf` and use the `cfFactorial()` function to set specific values for simulation. 
+
+```{r, warning=FALSE, message=FALSE}
+require(simcf)
+xhyp <- cfFactorial(age = agerange
+                    ,ep_rank = mean(dat$eps_rank))
+```
+
+- Run the simulation (this is where the last two steps are really performed).
+
+```{r, warning=FALSE, message=FALSE}
+test_sims <- mlogitsimev(xhyp,simb,ci=0.95)
+```
+
+# Get the data ready to graph
+
+```{r, warning=FALSE, message=FALSE}
+y <- as.vector(test_sims$pe[,1:4])
+
+x <- rep(1:length(agerange), 4)
+
+lower <- as.vector(test_sims$lower[,1:4,])
+
+upper <- as.vector(test_sims$upper[,1:4,])
+
+Outcome <- c(rep("Adoption", length(agerange))
+                 ,rep("Guardianship"
+                      ,length(agerange))
+                 ,rep("Reunification"
+                      ,length(agerange))
+                 ,rep("Emancipation"
+                      ,length(agerange)))
+```
+
+# Get the data ready to graph
+
+```{r, warning=FALSE, message=FALSE}
+dat_sim_plot <- data.frame(y,x,lower,upper,Outcome)
+```
+
+# Graph the data!
+
+```{r,  warning=FALSE, message=FALSE}
+p1 <- ggplot(dat_sim_plot
+       ,aes(x=x/10, y=y, group=Outcome)) + 
+        geom_line() 
+```
+
+# Graph the data!
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+p1
+```
+
+# Make it Pretty!
+
+```{r,  warning=FALSE, message=FALSE}
+p2 <- ggplot(dat_sim_plot
+       ,aes(x=x/10, y=y, group=Outcome)) + 
+        geom_line(size=1, alpha=.5) +
+        geom_ribbon(aes(ymin=lower
+                        ,ymax=upper
+                        ,fill=Outcome), alpha=.5) +
+        ylab("Pr(Outcome|Age,Prior Episodes)") +
+        xlab("Age at Entry into Foster Care") +
+        theme_bw() 
+```
+
+
+# Make it Pretty
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+p2
+```
