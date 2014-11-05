@@ -4,6 +4,53 @@ date: "Saturday, November 01, 2014"
 output: beamer_presentation
 ---
 
+```{r, eval=FALSE, echo=FALSE}
+
+#need to load actual parent survey data to an object called "dat"
+#and estimate an actual model before this code can be run. 
+#this is dat3 in methods_clean under ps_reunification 
+# eps_rank <- dat[,match("eps_rank", names(dat))]
+# age_eps_begin <- dat[,match("age_eps_begin", names(dat))]
+# 
+# age_eps_begin_par <- fitdistr(age_eps_begin, "exponential")
+# age_eps_begin_sim <- floor(rexp(619, age_eps_begin_par$estimate))
+# age_eps_begin_sim <- ifelse(age_eps_begin_sim <= 17
+#                             ,age_eps_begin_sim
+#                             ,round(runif(1,0,1),0))
+# 
+# eps_rank_par <- fitdistr(eps_rank, "exponential")
+# eps_rank_sim <- floor(rexp(619, eps_rank_par$estimate))
+# eps_rank_sim <- ifelse(eps_rank_sim <= 4 & eps_rank_sim != 0 
+#                             ,eps_rank_sim
+#                             ,1)
+# 
+# 
+# #x1 <- age_eps_begin_sim           # some continuous variables 
+# #x2 <- eps_rank_sim
+# 
+# z_adt = model$wts[6] + model$wts[7]*age_eps_begin_sim + model$wts[8]*eps_rank_sim
+# z_gdn = model$wts[10] + model$wts[11]*age_eps_begin_sim + model$wts[12]*eps_rank_sim
+# z_reu = model$wts[14] + model$wts[15]*age_eps_begin_sim + model$wts[16]*eps_rank_sim
+# 
+# pr_adt <- exp(z_adt)/rowSums(cbind(exp(z_adt), exp(z_gdn), exp(z_reu)))
+# pr_gdn <- exp(z_gdn)/rowSums(cbind(exp(z_adt), exp(z_gdn), exp(z_reu)))
+# pr_reu <- exp(z_reu)/rowSums(cbind(exp(z_adt), exp(z_gdn), exp(z_reu)))
+# pr_enc <- 1/rowSums(cbind(exp(z_adt), exp(z_gdn), exp(z_reu)))
+# 
+# outcome <- rep(NA, length(pr_adt))
+# for (i in 1:length(pr_adt)){
+#   outcome[i] <-  sample(x = c("adt", "gdn", "reu", "enc")
+#                        ,size = 1
+#                        ,prob = c(pr_adt[i]
+#                                  ,pr_gdn[i]
+#                                  ,pr_reu[i]
+#                                  ,pr_enc[i])
+#                        ,replace = T) 
+# }
+# 
+# dat <- data.frame(outcome, age_eps_begin, eps_rank)
+# write.csv(dat, file = "dat.csv", fileEncoding = "macroman")
+```
 
 # Why Use R?
 
@@ -61,15 +108,32 @@ Requires that we estimate a mulinomial logistic regression model.
 
 ## Data in Question 
 
-- 619 Children entering out-of-home care in late 2007. 
+- 500 children entering out-of-home care in late 2007. 
 
 - Children's parent's were surveyed once in 2007. The survey results were then linked to administrative data which faciliated a longitudinal follow-up. 
 
-NOTE: I will simulate a data set for sharing. I cannot share the raw data. 
+- Data have been jittered and randomly sampled from a larger set of data to mask the identity of subjects. The data used here do not reflect the data of individual subjects. 
+
+
 
 # A practical example - Choose a counterfactual $x_c$.
 
 ## Load the data 
+
+```{r, eval=FALSE, echo=FALSE}
+# outcome <- as.factor(round(jitter(as.numeric(dat$outcome)), 0))
+# levels(outcome) <- c("Adoption", "Emancipation", "Guardianship", "Reunification")
+# 
+# age_eps_begin <- round(jitter(as.numeric(dat$age_eps_begin), amount=1), 0)
+# age_eps_begin <- ifelse(age_eps_begin < 0, dat$age_eps_begin, age_eps_begin)
+# age_eps_begin <- ifelse(age_eps_begin > 17, dat$age_eps_begin, age_eps_begin)
+# 
+# eps_rank <- round(jitter(as.numeric(dat$eps_rank), amount=1), 0)
+# eps_rank <- ifelse(eps_rank < 1, dat$eps_rank, eps_rank)
+# dat <- data.frame(outcome, age_eps_begin, eps_rank)
+#dat <- dat[sample(nrow(dat), 1000, replace = TRUE), ]
+#write.csv(dat, file = "dat.csv", fileEncoding = "macroman")
+```
 
 ```{r}
 dat <- read.csv("dat.csv")
@@ -109,10 +173,6 @@ ggplot(dat, aes(x=age_eps_begin, fill=outcome)) +
 # easy to load external packages
 # install.packages("nnet") # install once
 require(nnet)             # load every time
-
-# recode data
-levels(dat$outcome) <- c("Adoption", "Emancipation"
-                         ,"Guardianship", "Reunification")
 
 # relevel our outcome variable
 dat$outcome_rl <- relevel(dat$outcome
