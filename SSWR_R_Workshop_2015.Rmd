@@ -62,6 +62,8 @@ output: beamer_presentation
 
 - Replicable Research 
 
+- Effective statistical communication
+
 # Why Wouldn't You Use R?
 
 Steep(er) learning curve compared to, say, Excel or SPSS. This matters a lot if
@@ -238,18 +240,19 @@ zp2 <- ggplot(allModelFrame2, aes(colour = ord.model)) +
                         labels=c("Model1", "Model2", "Model3")) +
   scale_shape_discrete(name  ="Model",
                        breaks=c("m1", "m2", "m3"),
-                       labels=c("Model1", "Model2", "Model3")) 
-zp2 <- zp2 + geom_hline(yintercept = 0, colour = gray(1/2), lty = 2)
-zp2 <- zp2 + geom_linerange(aes(x = ord.variable, ymin = Coef - SE*interval1,
-                                ymax = Coef + SE*interval1),
-                            lwd = 1,position = position_dodge(width = 1/2))
-zp2 <- zp2 + geom_pointrange(aes(x = ord.variable, y = Coef, ymin = Coef - SE*interval2,
-                                 ymax = Coef + SE*interval2),
-                             lwd = .8, position = position_dodge(width = 1/2),
-                             shape = 21, fill = "BLACK")
-zp2 <- zp2  + coord_flip() +theme_bw()
-zp2 <- zp2 + ggtitle("Replication Shiovitz et al 2010, Table 3") +  xlab("Variables") +
-  ylab("Odds Ratios") # The trick to these is position_dodge().
+                       labels=c("Model1", "Model2", "Model3")) +
+  geom_hline(yintercept = 0, colour = gray(1/2), lty = 2) +
+  geom_linerange(aes(x = ord.variable, ymin = Coef - SE*interval1,
+                     ymax = Coef + SE*interval1),
+                 lwd = 1,position = position_dodge(width = 1/2)) +
+  geom_pointrange(aes(x = ord.variable, y = Coef, ymin = Coef - SE*interval2,
+                      ymax = Coef + SE*interval2),
+                  lwd = .8, position = position_dodge(width = 1/2),
+                  shape = 21, fill = "BLACK") +
+  coord_flip() +theme_bw() +
+  labs(title = "Replication Shiovitz et al 2010, Table 3",
+       xlab = "Variables",
+       ylab = "Odds Ratios") # The trick to these is position_dodge().
 zp2
 ```
 
