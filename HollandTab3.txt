@@ -1,0 +1,8 @@
+Subscale and range	Abbreviated item content	M(SD)	Item-total correlation
+Household Activities	Prepare food	1.60(1.00)	.72
+	Grocery shop	2.97(1.80)	.78
+	Clean house	2.78(1.70)	.82
+	Laundry	2.25(1.60)	.83
+	Change bed linen	2.75(1.70)	.83
+	Wash dishes	1.80(1.30)	.72
+	Tidy living area	1.57(1.20)	.74

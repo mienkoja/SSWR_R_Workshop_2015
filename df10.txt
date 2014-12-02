@@ -1,0 +1,8 @@
+"name"	"mean"	"sd"	"index"
+"7"	"Tidy living area"	1.57	1.7	1
+"6"	"Prep food"	1.6	1	2
+"5"	"Wash dishes"	1.8	1.6	3
+"4"	"Laundry"	2.25	1.6	4
+"3"	"Change bed"	2.75	1.7	5
+"2"	"Clean house"	2.78	1.7	6
+"1"	"Grocery"	2.97	1.8	7

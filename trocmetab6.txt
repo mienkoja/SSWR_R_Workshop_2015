@@ -1,0 +1,30 @@
+Variable	Coefficient	OR	pvalue
+Aboriginal(Caucasian)	0.075	1.078	0.739
+Part-time(full-time)	0.615	1.849	0.043
+Benefits(full-time)	0.267	1.306	0.297
+Other income(full-time)	-0.857	0.425	0.139
+Unsafe housing	0.529	1.697	0.066
+One move(no moves)	0.421	1.524	0.064
+Two moves(no moves)	1.12	3.057	0.001
+Two parent blend(two parent bio)	0.581	1.787	0.046
+Single parent(two parent bio)	0.734	2.083	0.004
+Previous case	0.189	1.208	0.339
+Sexual abuse(physical abuse)	-0.799	0.45	0.053
+Neglect(physical abuse)	-0.244	0.783	0.262
+Emotional(physical abuse)	-0.639	0.528	0.061
+Domestic violence	-1.42	0.241	0.002
+Child sub abuse	0.075	1.078	0.845
+One child beh(none)	0.469	1.598	0.7
+Two more beh(none)	1.22	3.384	0.001
+Age 4-7(0-3)	-0.521	0.594	0.064
+Age 8-11((0-3)	-0.323	0.724	0.277
+Age 12-15(0-3)	-0.125	0.882	0.708
+Parent age 31-40(<30)	0.367	1.443	0.117
+Parent age 41-50(<30)	0.441	1.555	0.213
+Parent age 50more(<30)	0.88	2.411	0.319
+Parent drug	-0.138	0.871	0.587
+Parent criminal	0.573	1.773	0.025
+Parent cognitive	0.891	2.438	0.001
+Few social support	0.331	1.393	0.075
+Caregiver maltx	0.4	1.492	0.039
+Parent alcohol	0.431	1.539	0.052

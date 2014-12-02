@@ -1,0 +1,6 @@
+Placement status	Aboriginal(%)	Caucasian(%)
+Child welfare placement	9.9	4.6
+Informal placement	11.2	3.4
+Placement considered	3.9	2.4
+No placement required	75.1	89.6
+N	831	3,563
