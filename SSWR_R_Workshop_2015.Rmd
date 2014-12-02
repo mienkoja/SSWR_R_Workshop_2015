@@ -100,6 +100,18 @@ print(Table1, include.rownames=FALSE, floating=FALSE,hline.after=c(-1,0,4,nrow(T
 
 # Graphing Descriptive Statistics
 
+## What we could see in the journal article...
+
+```{r, echo=FALSE, results='asis'}
+## mosaic plot
+cis <- c(82,93,32,623,164,121,86,3192)
+dim(cis)<-c(4,2)
+dimnames(cis)<- list(Placement= c("p", "inf", "con", "no"), Ethnicity = c("Aboriginal", "Caucasian"))
+mosaicplot(cis, col=hcl(240, 120), main="Placement by Ethnicity")
+```
+
+# Graphing Descriptive Statistics
+
 ## What we see in the journal article...
 
 ```{r, echo=FALSE, results='asis'}
