@@ -62,7 +62,9 @@ output: beamer_presentation
 
 - Replicable Research 
 
-- Effective statistical communication
+- Effective Statistical Communication
+
+- Graphing Capabilities
 
 # Why Wouldn't You Use R?
 
@@ -527,3 +529,18 @@ p2 <- ggplot(dat_sim_plot
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
 p2
 ```
+
+# Moving Forward
+
+## The Potential Future of Data Visualization
+
+- Adding statistical model visualizations to journal websites
+
+- Allow journal readers to choose hypothetical cases and simulate results based on statistical models
+
+## The Near Future
+
+- Policy simulation tools (based on the approaches outlined here) will be coming soon to the child wellbeing data portal developed by Mienko, Passolt, and others at the University of Washington during the first half of 2015. 
+
+ - Check out the following url frequently for updates regarding such tools: [http://partnersforourchildren.org/data-portal/](http://partnersforourchildren.org/data-portal/)
+
