@@ -1,7 +1,8 @@
 ---
-title: "Using R for Analytic Graphs: Learn How Data Visualization Can Improve Interpretation in Social Work Research"
-date: "Saturday, November 01, 2014"
+title: 'Using R for Analytic Graphs: Learn How Data Visualization Can Improve Interpretation
+  in Social Work Research'
 output: beamer_presentation
+date: "Saturday, November 01, 2014"
 ---
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -86,39 +87,22 @@ Steep(er) learning curve compared to, say, Excel or SPSS. This matters a lot if
 
 # Graphing Descriptive Statistics
 
+## Means and standard deviations
+
+Excerpt from 
+
+Holland, D. E., Mistiaen, P., Knafl, G. J., & Bowles, K. H. (2011). The English translation and testing of the problems after discharge questionnaire. *Social Work Research*, 35(2), 107–116.
+
 ## What we see in the journal article...
 
-```{r, echo=FALSE, results='asis'}
+```{r, echo=FALSE, results='asis', warning=FALSE}
 library(xtable)
 library(ggplot2)
 library(reshape2)
 library(grid)
-options(xtable.comment = FALSE)
-TrocmeTab2 <- read.delim("TrocmeTab2.txt")
-colnames(TrocmeTab2) <- c("Placement status", "Aboriginal (%)", "Caucasian (%)")
-Table1 <- xtable(TrocmeTab2, align="llcc")
-print(Table1, include.rownames=FALSE, floating=FALSE,hline.after=c(-1,0,4,nrow(Table1)))
-```
-
-# Graphing Descriptive Statistics
-
-## What we could see in the journal article...
-
-```{r, echo=FALSE, results='asis'}
-## mosaic plot
-cis <- c(82,93,32,623,164,121,86,3192)
-dim(cis)<-c(4,2)
-dimnames(cis)<- list(Placement= c("p", "inf", "con", "no"), Ethnicity = c("Aboriginal", "Caucasian"))
-mosaicplot(cis, col=hcl(240, 120), main="Placement by Ethnicity")
-```
-
-# Graphing Descriptive Statistics
-
-## What we see in the journal article...
-
-```{r, echo=FALSE, results='asis'}
 HollandTab3 <- read.delim("HollandTab3.txt")
 colnames(HollandTab3) <- c("Subscale and Range", "Abbreviated item and Content", "M(+-SD)", "Item-total correlation")
+options(xtable.comment = FALSE)
 Table2 <- xtable(HollandTab3, align="lllcc")
 print(Table2, include.rownames=FALSE, floating=FALSE, scalebox=.7)
 ```
@@ -139,6 +123,54 @@ ggplot(df10,aes(x=Variable))+
   theme_bw()+ylab("Score")+ theme(panel.grid.minor.y=element_blank(), panel.grid.major.y=element_blank())
 ```
 
+
+# Graphing Descriptive Statistics
+
+## Bi-variate categorical data
+
+Excerpt from 
+
+Trocme, N., Knoke, D., & Blackstock, C. (2004). Pathways to the overrepresentation of Aboriginal children in Canada’s child welfare system. *Social Service Review*, 78(4), 577–600.
+
+# Graphing Descriptive Statistics
+
+## What we see in the journal article...
+
+```{r, echo=FALSE, results='asis', warning=FALSE}
+library(xtable)
+library(ggplot2)
+library(reshape2)
+library(grid)
+options(xtable.comment = FALSE)
+TrocmeTab2 <- read.delim("TrocmeTab2.txt")
+colnames(TrocmeTab2) <- c("Placement status", "Aboriginal (%)", "Caucasian (%)")
+Table1 <- xtable(TrocmeTab2, align="llcc")
+print(Table1, include.rownames=FALSE, floating=FALSE,hline.after=c(-1,0,4,nrow(Table1)))
+```
+
+# Graphing Descriptive Statistics
+
+## What we could see in the journal article...
+
+```{r, echo=FALSE, results='asis'}
+## mosaic plot
+cis <- c(82,93,32,623,164,121,86,3192)
+dim(cis)<-c(4,2)
+dimnames(cis)<- list(Placement= c("p", "inf", "con", "no"), Ethnicity = c("Aboriginal", "Caucasian"))
+mosaicplot(cis, col=c("tan1", "steelblue1"), main="Placement by Ethnicity")
+# mosaicplot(cis, col=TRUE, main="Placement by Ethnicity")
+# mosaicplot(cis, col=hcl(240, 120), main="Placement by Ethnicity")
+# mosaicplot(cis, col=hcl(0, 300), main="Placement by Ethnicity")
+```
+
+# Graphing Model Results
+
+## Single regression model
+
+Excerpt from 
+
+Trocme, N., Knoke, D., & Blackstock, C. (2004). Pathways to the overrepresentation of Aboriginal children in Canada’s child welfare system. *Social Service Review*, 78(4), 577–600.
+
 # Graphing Model Results
 
 ## What we see in the journal article...
@@ -153,7 +185,7 @@ print(Table3, include.rownames=FALSE, floating=FALSE, scalebox=.5)
 
 ## What we could see in the journal article...
 
-```{r, echo=FALSE, results='asis'}
+```{r, echo=FALSE, results='asis', warning=FALSE}
 tr6 <- read.delim("tr6.txt")
 library(lattice)
 dotplot(ord.variable ~ OR, data = tr6, main= "Predictors of Child Welfare Placement (N = 2891)",
@@ -203,17 +235,23 @@ ggplot(tr6,aes(x=OR,y=Variable))+theme_bw()+
 
 # Graphing Model Results
 
+## Multiple regression models
+
+Excerpt from 
+
+
+Shiovitz-Ezra, S., & Leitsch, S. A. (2010). The role of social relationships in predicting loneliness: The national social life, health, and aging project. *Social Work Research*, 34(3), 157–167.
+
+# Graphing Model Results
+
 ## What we see in the journal article...
 
 ```{r, echo=FALSE, results='asis'}
 mergeshio3 <- read.delim("mergeshio3.txt", header=FALSE)
 merg_names <- c("Variable", "Coef", "SE", "p", "Coef", "SE", "p", "Coef", "SE", "p")
-
 mergeshio3 <- mergeshio3[-1,-1]
 colnames(mergeshio3) <- merg_names
-
 Table4 <- xtable(mergeshio3)
-
 print(Table4, include.rownames=FALSE, floating=FALSE, scalebox=.8)
 ```
 
@@ -428,6 +466,7 @@ simbetas <- mvrnorm(sims,pe,vc)
 - Specific calculations are beyond the scope of this presentation
 
 - But the `simcf` package from Chris Adolph (political scientist at the University of Washington) will do them for us!
+- http://faculty.washington.edu/cadolph/?page=60
 
 
 # A practical example - Last two steps
