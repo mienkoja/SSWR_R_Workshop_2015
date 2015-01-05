@@ -1,7 +1,8 @@
 ---
-title: "Using R for Analytic Graphs: Learn How Data Visualization Can Improve Interpretation in Social Work Research"
-date: "Saturday, November 01, 2014"
+title: 'Using R for Analytic Graphs: Learn How Data Visualization Can Improve Interpretation
+  in Social Work Research'
 output: beamer_presentation
+date: "Saturday, November 01, 2014"
 ---
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -53,6 +54,9 @@ output: beamer_presentation
 ```
 
 # Why Use R?
+<!---
+Richard Slide
+-->
 
 - Free
 
@@ -62,10 +66,14 @@ output: beamer_presentation
 
 - Replicable Research 
 
-- Effective statistical communication
+- Effective Statistical Communication
+
+- Graphing Capabilities
 
 # Why Wouldn't You Use R?
-
+<!---
+Richard Slide
+-->
 Steep(er) learning curve compared to, say, Excel or SPSS. This matters a lot if
 
 - You run statistics rarely.
@@ -73,58 +81,50 @@ Steep(er) learning curve compared to, say, Excel or SPSS. This matters a lot if
 - You want a point and click interface. 
 
 # Where Can you Get R?
-
+<!---
+Richard Slide
+-->
 - CRAN
 
 - Our Thumb Drives
 
 # Where Are We Going Today?
-
+<!---
+Richard Slide
+-->
 - Graphing Descriptive Statistics
 
 - Graphing Model Results
 
 # Graphing Descriptive Statistics
 
+## Means and standard deviations
+
+Excerpt from 
+
+Holland, D. E., Mistiaen, P., Knafl, G. J., & Bowles, K. H. (2011). The English translation and testing of the problems after discharge questionnaire. *Social Work Research*, 35(2), 107–116.
+
+<!---
+David Slide
+-->
 ## What we see in the journal article...
 
-```{r, echo=FALSE, results='asis'}
+```{r, echo=FALSE, results='asis', warning=FALSE}
 library(xtable)
 library(ggplot2)
 library(reshape2)
 library(grid)
-options(xtable.comment = FALSE)
-TrocmeTab2 <- read.delim("TrocmeTab2.txt")
-colnames(TrocmeTab2) <- c("Placement status", "Aboriginal (%)", "Caucasian (%)")
-Table1 <- xtable(TrocmeTab2, align="llcc")
-print(Table1, include.rownames=FALSE, floating=FALSE,hline.after=c(-1,0,4,nrow(Table1)))
-```
-
-# Graphing Descriptive Statistics
-
-## What we could see in the journal article...
-
-```{r, echo=FALSE, results='asis'}
-## mosaic plot
-cis <- c(82,93,32,623,164,121,86,3192)
-dim(cis)<-c(4,2)
-dimnames(cis)<- list(Placement= c("p", "inf", "con", "no"), Ethnicity = c("Aboriginal", "Caucasian"))
-mosaicplot(cis, col=hcl(240, 120), main="Placement by Ethnicity")
-```
-
-# Graphing Descriptive Statistics
-
-## What we see in the journal article...
-
-```{r, echo=FALSE, results='asis'}
 HollandTab3 <- read.delim("HollandTab3.txt")
 colnames(HollandTab3) <- c("Subscale and Range", "Abbreviated item and Content", "M(+-SD)", "Item-total correlation")
+options(xtable.comment = FALSE)
 Table2 <- xtable(HollandTab3, align="lllcc")
 print(Table2, include.rownames=FALSE, floating=FALSE, scalebox=.7)
 ```
 
 # Graphing Descriptive Statistics
-
+<!---
+David Slide
+-->
 ## What we could see in the journal article...
 
 ```{r, echo=FALSE, results='asis'}
@@ -139,7 +139,63 @@ ggplot(df10,aes(x=Variable))+
   theme_bw()+ylab("Score")+ theme(panel.grid.minor.y=element_blank(), panel.grid.major.y=element_blank())
 ```
 
+
+# Graphing Descriptive Statistics
+
+## Bi-variate categorical data
+
+Excerpt from 
+
+Trocme, N., Knoke, D., & Blackstock, C. (2004). Pathways to the overrepresentation of Aboriginal children in Canada’s child welfare system. *Social Service Review*, 78(4), 577–600.
+
+# Graphing Descriptive Statistics
+<!---
+David Slide
+-->
+## What we see in the journal article...
+
+```{r, echo=FALSE, results='asis', warning=FALSE}
+library(xtable)
+library(ggplot2)
+library(reshape2)
+library(grid)
+options(xtable.comment = FALSE)
+TrocmeTab2 <- read.delim("TrocmeTab2.txt")
+colnames(TrocmeTab2) <- c("Placement status", "Aboriginal (%)", "Caucasian (%)")
+Table1 <- xtable(TrocmeTab2, align="llcc")
+print(Table1, include.rownames=FALSE, floating=FALSE,hline.after=c(-1,0,4,nrow(Table1)))
+```
+
+# Graphing Descriptive Statistics
+<!---
+David Slide
+-->
+## What we could see in the journal article...
+
+```{r, echo=FALSE, results='asis'}
+## mosaic plot
+cis <- c(82,93,32,623,164,121,86,3192)
+dim(cis)<-c(4,2)
+dimnames(cis)<- list(Placement= c("p", "inf", "con", "no"), Ethnicity = c("Aboriginal", "Caucasian"))
+mosaicplot(cis, col=c("tan1", "steelblue1"), main="Placement by Ethnicity")
+# mosaicplot(cis, col=TRUE, main="Placement by Ethnicity")
+# mosaicplot(cis, col=hcl(240, 120), main="Placement by Ethnicity")
+# mosaicplot(cis, col=hcl(0, 300), main="Placement by Ethnicity")
+```
+
 # Graphing Model Results
+
+## Single regression model
+
+Excerpt from 
+
+Trocme, N., Knoke, D., & Blackstock, C. (2004). Pathways to the overrepresentation of Aboriginal children in Canada’s child welfare system. *Social Service Review*, 78(4), 577–600.
+
+# Graphing Model Results
+
+<!---
+David Slide
+-->
 
 ## What we see in the journal article...
 
@@ -150,10 +206,12 @@ print(Table3, include.rownames=FALSE, floating=FALSE, scalebox=.5)
 ```
 
 # Graphing Model Results
-
+<!---
+David Slide
+-->
 ## What we could see in the journal article...
 
-```{r, echo=FALSE, results='asis'}
+```{r, echo=FALSE, results='asis', warning=FALSE}
 tr6 <- read.delim("tr6.txt")
 library(lattice)
 dotplot(ord.variable ~ OR, data = tr6, main= "Predictors of Child Welfare Placement (N = 2891)",
@@ -178,7 +236,9 @@ dotplot(ord.variable ~ OR, data = tr6, main= "Predictors of Child Welfare Placem
 ```
 
 # Graphing Model Results
-
+<!---
+David Slide
+-->
 ## What we could see in the journal article...
 
 ```{r, echo=FALSE, results='asis'}
@@ -203,22 +263,33 @@ ggplot(tr6,aes(x=OR,y=Variable))+theme_bw()+
 
 # Graphing Model Results
 
+## Multiple regression models
+
+Excerpt from 
+
+
+Shiovitz-Ezra, S., & Leitsch, S. A. (2010). The role of social relationships in predicting loneliness: The national social life, health, and aging project. *Social Work Research*, 34(3), 157–167.
+
+# Graphing Model Results
+
+<!---
+David Slide
+-->
 ## What we see in the journal article...
 
 ```{r, echo=FALSE, results='asis'}
 mergeshio3 <- read.delim("mergeshio3.txt", header=FALSE)
 merg_names <- c("Variable", "Coef", "SE", "p", "Coef", "SE", "p", "Coef", "SE", "p")
-
 mergeshio3 <- mergeshio3[-1,-1]
 colnames(mergeshio3) <- merg_names
-
 Table4 <- xtable(mergeshio3)
-
 print(Table4, include.rownames=FALSE, floating=FALSE, scalebox=.8)
 ```
 
 # Graphing Model Results
-
+<!---
+David Slide
+-->
 ## What we could see in the journal article...
 
 ```{r, echo=FALSE, results='asis'}
@@ -258,7 +329,9 @@ zp2
 ```
 
 # Graphing Model Results
-
+<!---
+Joe Slide
+-->
 ## What if we had more information than what was available in peer-reviewed journals?
 
 ## Consider this basic algorithm
@@ -276,7 +349,9 @@ zp2
 This approach will work for most of the models that social welfare researchers tend to encounter.
 
 # A Practical Example - Background
-
+<!---
+Joe Slide
+-->
 ## Research Question
 
 How does a child's probability of exiting the foster care system vary by child characteristics?
@@ -296,7 +371,9 @@ Requires that we estimate a mulinomial logistic regression model.
 
 
 # A practical example - Choose a counterfactual $x_c$.
-
+<!---
+Joe Slide
+-->
 ## Load the data 
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -319,7 +396,9 @@ dat <- read.csv("dat.csv")
 ```
 
 # A practical example - Choose a counterfactual $x_c$.
-
+<!---
+Joe Slide
+-->
 ```{r, fig.width=3, fig.height=2, warning=FALSE, message=FALSE}
 #looking at age of child at episode begin
 require(ggplot2)
@@ -328,7 +407,9 @@ ggplot(dat, aes(x=age_eps_begin)) +
 ```
 
 # A practical example - Choose a counterfactual $x_c$.
-
+<!---
+Joe Slide
+-->
 ```{r, fig.width=6, fig.height=3, warning=FALSE, message=FALSE}
 #looking at age of child at episode begin by outcome 
 ggplot(dat, aes(x=age_eps_begin, fill=outcome)) + 
@@ -337,7 +418,9 @@ ggplot(dat, aes(x=age_eps_begin, fill=outcome)) +
 ```
 
 # A practical example - Estimate a model. 
-
+<!---
+Joe Slide
+-->
 ## Need to estimate a statistical model to get 
 
 1. A vector of parameters $\hat{\boldsymbol\beta}$, and 
@@ -345,7 +428,9 @@ ggplot(dat, aes(x=age_eps_begin, fill=outcome)) +
 2. The associated variance-covariance matrix, $\hat{\boldsymbol V}$.
 
 # A practical example - Estimate a model. 
-
+<!---
+Joe Slide
+-->
 ## Prep the data
 
 ```{r, fig.width=6, fig.height=3, warning=FALSE, message=FALSE}
@@ -362,7 +447,9 @@ dat$outcome_rl <- as.numeric(dat$outcome_rl)
 ```
 
 # A practical example - Estimate a model. 
-
+<!---
+Joe Slide
+-->
 ## Run the model
 
 ```{r, warning=FALSE, message=FALSE}
@@ -375,7 +462,9 @@ model <- multinom(outcome_rl ~ age_eps_begin +
 
 
 # A practical example - Estimate a model. 
-
+<!---
+Joe Slide
+-->
 ## Display of summary the model
 
 ```{r, warning=FALSE, message=FALSE, }
@@ -384,7 +473,9 @@ model
 
 
 # A practical example - Estimate a model. 
-
+<!---
+Joe Slide
+-->
 ## Extract a vector of parameters $\hat{\boldsymbol\beta}$
 
 ```{r, warning=FALSE, message=FALSE}
@@ -397,7 +488,9 @@ pe[7:9]
 ```
 
 # A practical example - Estimate a model. 
-
+<!---
+Joe Slide
+-->
 ## Extract the associated variance-covariance matrix, $\hat{\boldsymbol V}$
 
 ```{r, warning=FALSE, message=FALSE}
@@ -420,7 +513,9 @@ simbetas <- mvrnorm(sims,pe,vc)
 
 
 # A practical example - Last two steps...
-
+<!---
+Joe Slide
+-->
 
 - Calculate expected values for all of your draws from $\mathcal{N}$, and
 
@@ -429,10 +524,13 @@ simbetas <- mvrnorm(sims,pe,vc)
 - Specific calculations are beyond the scope of this presentation
 
 - But the `simcf` package from Chris Adolph (political scientist at the University of Washington) will do them for us!
+- http://faculty.washington.edu/cadolph/?page=60
 
 
 # A practical example - Last two steps
-
+<!---
+Joe Slide
+-->
 ## Get data read for `simcf`
 
 - Re-arrange simulates to array format
@@ -451,7 +549,9 @@ agerange <- seq(0,17,by=0.1)
 ```
 
 # A practical example - Last two steps
-
+<!---
+Joe Slide
+-->
 ## Get data read for `simcf`
 
 - Load `simcf` and use the `cfFactorial()` function to set specific values for simulation. 
@@ -469,7 +569,9 @@ test_sims <- mlogitsimev(xhyp,simb,ci=0.95)
 ```
 
 # Get the data ready to graph
-
+<!---
+Joe Slide
+-->
 ```{r, warning=FALSE, message=FALSE}
 y <- as.vector(test_sims$pe[,1:4])
 
@@ -489,13 +591,17 @@ Outcome <- c(rep("Adoption", length(agerange))
 ```
 
 # Get the data ready to graph
-
+<!---
+Joe Slide
+-->
 ```{r, warning=FALSE, message=FALSE}
 dat_sim_plot <- data.frame(y,x,lower,upper,Outcome)
 ```
 
 # Graph the data!
-
+<!---
+Joe Slide
+-->
 ```{r,  warning=FALSE, message=FALSE}
 p1 <- ggplot(dat_sim_plot
        ,aes(x=x/10, y=y, group=Outcome)) + 
@@ -503,13 +609,17 @@ p1 <- ggplot(dat_sim_plot
 ```
 
 # Graph the data!
-
+<!---
+Joe Slide
+-->
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
 p1
 ```
 
 # Make it Pretty!
-
+<!---
+Joe Slide
+-->
 ```{r,  warning=FALSE, message=FALSE}
 p2 <- ggplot(dat_sim_plot
        ,aes(x=x/10, y=y, group=Outcome)) + 
@@ -524,7 +634,36 @@ p2 <- ggplot(dat_sim_plot
 
 
 # Make it Pretty
-
+<!---
+Joe Slide
+-->
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
 p2
 ```
+
+# Moving Forward
+<!---
+Joe Slide
+-->
+## The Potential Future of Data Visualization
+
+- Adding statistical model visualizations to journal websites
+
+- Allow journal readers to choose hypothetical cases and simulate results based on statistical models
+
+## The Near Future
+
+- Policy simulation tools (based on the approaches outlined here) will be coming soon to the child wellbeing data portal developed by Mienko, Passolt, and others at the University of Washington during the first half of 2015. 
+
+ - Check out the following url frequently for updates regarding such tools: [http://partnersforourchildren.org/data-portal/](http://partnersforourchildren.org/data-portal/)
+ 
+# This Presentation
+<!---
+Joe Slide
+-->
+## Want to replicate anything you've seen here?
+ 
+ - All of the code is available at the following repository: [https://github.com/mienkoja/SSWR_R_Workshop_2015](https://github.com/mienkoja/SSWR_R_Workshop_2015)
+ 
+ - Fork us and try the code out for yourself!
+
