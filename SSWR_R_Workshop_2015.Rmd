@@ -97,7 +97,6 @@ Richard Slide
 - Graphing Model Results
 
 # Graphing Descriptive Statistics
-<<<<<<< HEAD
 
 ## Means and standard deviations
 
@@ -105,11 +104,9 @@ Excerpt from
 
 Holland, D. E., Mistiaen, P., Knafl, G. J., & Bowles, K. H. (2011). The English translation and testing of the problems after discharge questionnaire. *Social Work Research*, 35(2), 107–116.
 
-=======
 <!---
 David Slide
 -->
->>>>>>> 5bb5eb08799c71ec5735199d994d17f5fc85e90c
 ## What we see in the journal article...
 
 ```{r, echo=FALSE, results='asis', warning=FALSE}
@@ -187,7 +184,6 @@ mosaicplot(cis, col=c("tan1", "steelblue1"), main="Placement by Ethnicity")
 ```
 
 # Graphing Model Results
-<<<<<<< HEAD
 
 ## Single regression model
 
@@ -197,11 +193,10 @@ Trocme, N., Knoke, D., & Blackstock, C. (2004). Pathways to the overrepresentati
 
 # Graphing Model Results
 
-=======
 <!---
 David Slide
 -->
->>>>>>> 5bb5eb08799c71ec5735199d994d17f5fc85e90c
+
 ## What we see in the journal article...
 
 ```{r, echo=FALSE, results='asis'}
@@ -267,7 +262,6 @@ ggplot(tr6,aes(x=OR,y=Variable))+theme_bw()+
 
 
 # Graphing Model Results
-<<<<<<< HEAD
 
 ## Multiple regression models
 
@@ -278,11 +272,9 @@ Shiovitz-Ezra, S., & Leitsch, S. A. (2010). The role of social relationships in 
 
 # Graphing Model Results
 
-=======
 <!---
 David Slide
 -->
->>>>>>> 5bb5eb08799c71ec5735199d994d17f5fc85e90c
 ## What we see in the journal article...
 
 ```{r, echo=FALSE, results='asis'}
