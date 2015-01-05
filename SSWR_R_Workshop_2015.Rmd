@@ -234,6 +234,7 @@ allModelFrame1 <- read.delim("allModelFrame1.txt", header=TRUE)
 allModelFrame2 <- allModelFrame1
 ########### reorder the data
 allModelFrame2$ord.model <- factor(allModelFrame2$model, levels=c("m3", "m2", "m1"), ordered =TRUE)
+allModelFrame2$ord.variable <- reorder(allModelFrame2$ord.variable, X = allModelFrame2$Coef, FUN = mean)
 zp2 <- ggplot(allModelFrame2, aes(colour = ord.model)) + 
   scale_colour_discrete(name  ="Model",
                         breaks=c("m1", "m2", "m3"),
