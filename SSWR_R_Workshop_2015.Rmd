@@ -2,8 +2,8 @@
 title: 'Using R for Analytic Graphs: Learn How Data Visualization Can Improve Interpretation
   in Social Work Research'
 output:
-  slidy_presentation: null
   beamer_presentation: default
+  slidy_presentation: null
 date: "Saturday, January 18, 2015"
 ---
 
@@ -135,10 +135,12 @@ df10 <- read.delim("df10.txt")
 #df10<-df10[order(nrow(df10):1),] #Invert the rows of dataset
 df10$Variable<-seq(1,nrow(df10)) # Numbering index
 ###### Now ggplot displays the rows in this order: 7,6,5,4,3,2,1
-ggplot(df10,aes(x=Variable))+
-  geom_pointrange(aes(y=mean,ymin=mean-sd,ymax=mean+sd),size=1)+
-  scale_x_discrete(labels=df10$name)+coord_flip()+
-  theme_bw()+ylab("Score")+ theme(panel.grid.minor.y=element_blank(), panel.grid.major.y=element_blank())
+ggplot(df10, aes(x = Variable)) +
+  geom_pointrange(aes(y = mean, ymin = mean - sd, ymax = mean + sd), size=1) + 
+  scale_x_discrete(labels = df10$name) + coord_flip() +
+  labs(x = "Score", y = "") +
+  theme_bw(24) + 
+  theme(panel.grid.minor.y = element_blank(), panel.grid.major.y = element_blank())
 ```
 
 
@@ -245,21 +247,25 @@ David Slide
 
 ```{r, echo=FALSE, results='asis'}
 ###### Create significance variable
-tr6$signif<-factor(ifelse(tr6$pvalue<=.05,1,0))
-tr6<-tr6[order(-tr6$OR),] # dataset arranged from highest OR to lowest OR
+tr6$signif <- factor(ifelse(tr6$pvalue <= .05, 0, 1))
+tr6 <- tr6[order(-tr6$OR), ] # dataset arranged from highest OR to lowest OR
 ######See if we index from 1 to n, the highest OR is the first on the x/y axis
 ######If we want the lowest OR on the first tick for x/y axis, reverse the order
-tr6<-tr6[order(tr6$OR),] #Now data displays lowest to highest OR
+tr6 <- tr6[order(tr6$OR), ] #Now data displays lowest to highest OR
 tr6$Variable<-seq(1,nrow(tr6)) #Index 
-ggplot(tr6,aes(x=OR,y=Variable))+theme_bw()+
-  geom_point(aes(pch=signif))+
-  geom_vline(x=1,color="grey30",linetype='dashed')+
-  scale_y_discrete(labels=tr6$ord.variable)+
+ggplot(tr6,aes(x=OR,y=Variable))+
+  theme_bw()+
+  geom_point(aes(shape = signif), size = 2.5) +
+  geom_vline(x=1,color="grey50")+
+  scale_y_discrete(labels=tr6$ord.variable) +
+  labs(x = "Odds Ratios", title = "Predictors of Child Welfare Placement (N = 2891)", y = "") +
   scale_shape_manual(breaks=c(1,0),values=c(16,1),name="Significance",
                      labels=c("Significant: p < .05","Not significant: p >.05"))+
-  theme(legend.direction="vertical",legend.position="top",legend.key=element_blank(),
-        legend.key.height=unit(.5,"line"),
-        panel.grid.major=element_line(color="grey50",linetype='dashed'))
+  theme(legend.direction="vertical",
+        legend.position= c(0.7, 0.15),
+        legend.key=element_blank(),
+        #legend.key.height=unit(.5,"line"),
+        panel.grid.major=element_line(color="grey80",linetype='dashed', size = 0.3))
 ```
 
 
@@ -307,7 +313,8 @@ allModelFrame1 <- read.delim("allModelFrame1.txt", header=TRUE)
 allModelFrame2 <- allModelFrame1
 ########### reorder the data
 allModelFrame2$ord.model <- factor(allModelFrame2$model, levels=c("m3", "m2", "m1"), ordered =TRUE)
-allModelFrame2$ord.variable <- reorder(allModelFrame2$ord.variable, X = allModelFrame2$Coef, FUN = mean)
+allModelFrame2$ord.variable <- factor(allModelFrame2$ord.variable,
+                                      levels = rev(as.character(mergeshio3$Variable)))
 zp2 <- ggplot(allModelFrame2, aes(colour = ord.model)) + 
   scale_colour_discrete(name  ="Model",
                         breaks=c("m1", "m2", "m3"),
@@ -318,15 +325,17 @@ zp2 <- ggplot(allModelFrame2, aes(colour = ord.model)) +
   geom_hline(yintercept = 0, colour = gray(1/2), lty = 2) +
   geom_linerange(aes(x = ord.variable, ymin = Coef - SE*interval1,
                      ymax = Coef + SE*interval1),
-                 lwd = 1,position = position_dodge(width = 1/2)) +
+                 lwd = 1, position = position_dodge(width = 1/2)) +
   geom_pointrange(aes(x = ord.variable, y = Coef, ymin = Coef - SE*interval2,
                       ymax = Coef + SE*interval2),
-                  lwd = .8, position = position_dodge(width = 1/2),
+                  lwd = .5, position = position_dodge(width = 1/2),
                   shape = 21, fill = "BLACK") +
-  coord_flip() +theme_bw() +
+    # The trick to these is position_dodge().
+  coord_flip() + theme_bw() +
+  theme(panel.grid= element_line(color = "gray70")) +
   labs(title = "Replication Shiovitz et al 2010, Table 3",
-       xlab = "Variables",
-       ylab = "Odds Ratios") # The trick to these is position_dodge().
+       x = "",
+       y = "Odds Ratios") 
 zp2
 ```
 
@@ -635,7 +644,7 @@ p2 <- ggplot(dat_sim_plot
         geom_ribbon(aes(ymin=lower
                         ,ymax=upper
                         ,fill=Outcome), alpha=.5) +
-        ylab("Pr(Outcome|Age,Prior Episodes)") +
+        ylab("Pr(Outcome | Age,Prior Episodes)") +
         xlab("Age at Entry into Foster Care") +
         theme_bw() 
 ```
