@@ -1,8 +1,10 @@
 ---
 title: 'Using R for Analytic Graphs: Learn How Data Visualization Can Improve Interpretation
   in Social Work Research'
-output: beamer_presentation
-date: "Saturday, November 01, 2014"
+output:
+  slidy_presentation: null
+  beamer_presentation: default
+date: "Saturday, January 18, 2015"
 ---
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -374,7 +376,11 @@ Requires that we estimate a mulinomial logistic regression model.
 <!---
 Joe Slide
 -->
-## Load the data 
+## Getting Data Into R 
+
+- R can import and export spreadsheets (*.txt, *.csv) and *.RData files. Use the foriegn() library to import SPSS, Stata, and DBase formats.
+
+- R commands to import data: read.dta(), read.spss(), read.csv(), or read.dbf().
 
 ```{r, eval=FALSE, echo=FALSE}
 # outcome <- as.factor(round(jitter(as.numeric(dat$outcome)), 0))
@@ -394,6 +400,8 @@ Joe Slide
 ```{r}
 dat <- read.csv("dat.csv")
 ```
+
+- To export use write.dta(), write.spss(), write.csv(), or write.dbf().
 
 # A practical example - Choose a counterfactual $x_c$.
 <!---
