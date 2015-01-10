@@ -1,9 +1,9 @@
 ---
-title: 'Using R for Analytic Graphs: Learn How Data Visualization Can Improve Interpretation
-  in Social Work Research'
+title: 'Using R for Analytic Graphs: Learn How Data Visualization Can Improve Interpretation in Social Work Research'
+author: 'Joseph Mienko, David Rothwell, Richard Smith, & Gregor Thomas-Passolt'
 output:
-  beamer_presentation: default
   slidy_presentation: null
+  beamer_presentation: default
 date: "Saturday, January 18, 2015"
 ---
 
@@ -120,7 +120,11 @@ HollandTab3 <- read.delim("HollandTab3.txt")
 colnames(HollandTab3) <- c("Subscale and Range", "Abbreviated item and Content", "M(+-SD)", "Item-total correlation")
 options(xtable.comment = FALSE)
 Table2 <- xtable(HollandTab3, align="lllcc")
-print(Table2, include.rownames=FALSE, floating=FALSE, scalebox=.7)
+print(Table2
+      ,include.rownames=FALSE
+      ,floating=FALSE
+      ,scalebox=.7
+      ,type="html")
 ```
 
 # Graphing Descriptive Statistics
@@ -167,7 +171,11 @@ options(xtable.comment = FALSE)
 TrocmeTab2 <- read.delim("TrocmeTab2.txt")
 colnames(TrocmeTab2) <- c("Placement status", "Aboriginal (%)", "Caucasian (%)")
 Table1 <- xtable(TrocmeTab2, align="llcc")
-print(Table1, include.rownames=FALSE, floating=FALSE,hline.after=c(-1,0,4,nrow(Table1)))
+print(Table1
+      ,include.rownames=FALSE
+      ,floating=FALSE
+      ,hline.after=c(-1,0,4,nrow(Table1))
+      ,type="html")
 ```
 
 # Graphing Descriptive Statistics
@@ -206,7 +214,7 @@ David Slide
 ```{r, echo=FALSE, results='asis'}
 trocmetab6 <- read.delim("trocmetab6.txt")
 Table3 <- xtable(trocmetab6, align="llccc")
-print(Table3, include.rownames=FALSE, floating=FALSE, scalebox=.5)
+print(Table3, include.rownames=FALSE, floating=FALSE, scalebox=.5,type="html")
 ```
 
 # Graphing Model Results
@@ -291,7 +299,7 @@ merg_names <- c("Variable", "Coef", "SE", "p", "Coef", "SE", "p", "Coef", "SE", 
 mergeshio3 <- mergeshio3[-1,-1]
 colnames(mergeshio3) <- merg_names
 Table4 <- xtable(mergeshio3)
-print(Table4, include.rownames=FALSE, floating=FALSE, scalebox=.8)
+print(Table4, include.rownames=FALSE, floating=FALSE, scalebox=.8,type="html")
 ```
 
 # Graphing Model Results
@@ -347,7 +355,7 @@ Joe Slide
 
 ## Consider this basic algorithm
 
-1. Choose a counterfactual $x_c$.
+1. Choose a predictor of interest $x_c$.
 
 2. Estimate a model to get a vector of parameters $\hat{\boldsymbol\beta}$ and the associated variance-covariance matrix, $\hat{\boldsymbol V}$.
 
@@ -381,7 +389,7 @@ Requires that we estimate a mulinomial logistic regression model.
 
 
 
-# A practical example - Choose a counterfactual $x_c$.
+# A practical example - Choose a predictor of interest $x_c$.
 <!---
 Joe Slide
 -->
@@ -412,7 +420,7 @@ dat <- read.csv("dat.csv")
 
 - To export use write.dta(), write.spss(), write.csv(), or write.dbf().
 
-# A practical example - Choose a counterfactual $x_c$.
+# A practical example - Choose a predictor of interest $x_c$.
 <!---
 Joe Slide
 -->
@@ -423,15 +431,32 @@ ggplot(dat, aes(x=age_eps_begin)) +
   geom_histogram(binwidth = 1)
 ```
 
-# A practical example - Choose a counterfactual $x_c$.
+# A practical example - Choose a predictor of interest $x_c$.
+## Our Predictor - Age at Episode Begin 
 <!---
 Joe Slide
 -->
-```{r, fig.width=6, fig.height=3, warning=FALSE, message=FALSE}
+```{r, fig.width=5, fig.height=2.5, warning=FALSE, message=FALSE, eval=FALSE}
 #looking at age of child at episode begin by outcome 
 ggplot(dat, aes(x=age_eps_begin, fill=outcome)) + 
-  geom_histogram(binwidth = 1) +
-  facet_wrap(~ outcome)
+  geom_histogram(binwidth = 1) + 
+  facet_wrap(~ outcome) +
+  xlab("Age at Episode Begin")
+```
+
+# A practical example - Choose a predictor of interest $x_c$.
+## Our Predictor - Age at Episode Begin 
+<!---
+Joe Slide
+-->
+```{r, fig.width=7, fig.height=4, warning=FALSE, message=FALSE, echo=FALSE}
+#looking at age of child at episode begin by outcome 
+ggplot(dat, aes(x=age_eps_begin, fill=outcome)) + 
+  geom_histogram(binwidth = 1) + 
+  facet_wrap(~ outcome) +
+  xlab("Age at Episode Begin") +
+  ylab("Count of Children with Outcome") +
+  theme_bw()
 ```
 
 # A practical example - Estimate a model. 
@@ -559,7 +584,7 @@ simb[,,2] <- simbetas[,4:6]
 simb[,,3] <- simbetas[,7:9]
 ```
 
-- Specify range of counterfactual values
+- Specify range of age values
 
 ```{r, warning=FALSE, message=FALSE}
 agerange <- seq(0,17,by=0.1)    
