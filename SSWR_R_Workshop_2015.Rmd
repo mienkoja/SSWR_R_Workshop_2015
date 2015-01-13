@@ -1,6 +1,6 @@
 ---
 title: 'Using R for Analytic Graphs: Learn How Data Visualization Can Improve Interpretation in Social Work Research'
-author: 'Joseph Mienko, David Rothwell, Richard Smith, & Gregor Thomas-Passolt'
+author: 'Joseph Mienko, David Rothwell, Richard Smith, & Gregor Thomas'
 output:
   slidy_presentation: null
   beamer_presentation: default
