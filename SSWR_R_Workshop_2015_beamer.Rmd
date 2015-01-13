@@ -1,11 +1,11 @@
 ---
 title: 'Using R for Analytic Graphs: Learn How Data Visualization Can Improve Interpretation
   in Social Work Research'
-author: Richard Smith, David Rothwell, & Joseph Mienko 
-date: "(Thanks to Gregor Thomas for Assistance with Preparation)"
+author: "Joseph Mienko, David Rothwell, Richard Smith, & Gregor Thomas"
+date: "Saturday, January 18, 2015"
 output:
-  slidy_presentation: null
   beamer_presentation: default
+  slidy_presentation: null
 ---
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -125,7 +125,8 @@ print(Table2
       ,include.rownames=FALSE
       ,floating=FALSE
       ,scalebox=.7
-      ,type="html")
+      #,type="html"
+      )
 ```
 
 # Graphing Descriptive Statistics
@@ -176,7 +177,8 @@ print(Table1
       ,include.rownames=FALSE
       ,floating=FALSE
       ,hline.after=c(-1,0,4,nrow(Table1))
-      ,type="html")
+      #,type="html"
+      )
 ```
 
 # Graphing Descriptive Statistics
@@ -215,7 +217,9 @@ David Slide
 ```{r, echo=FALSE, results='asis'}
 trocmetab6 <- read.delim("trocmetab6.txt")
 Table3 <- xtable(trocmetab6, align="llccc")
-print(Table3, include.rownames=FALSE, floating=FALSE, scalebox=.5,type="html")
+print(Table3, include.rownames=FALSE, floating=FALSE, scalebox=.5
+      #,type="html"
+      )
 ```
 
 # Graphing Model Results
@@ -302,7 +306,9 @@ merg_names <- c("Variable", "Coef", "SE", "p", "Coef", "SE", "p", "Coef", "SE", 
 mergeshio3 <- mergeshio3[-1,-1]
 colnames(mergeshio3) <- merg_names
 Table4 <- xtable(mergeshio3)
-print(Table4, include.rownames=FALSE, floating=FALSE, scalebox=.8,type="html")
+print(Table4, include.rownames=FALSE, floating=FALSE, scalebox=.8
+      #,type="html"
+      )
 ```
 
 # Graphing Model Results
