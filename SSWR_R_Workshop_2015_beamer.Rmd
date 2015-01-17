@@ -4,8 +4,8 @@ title: 'Using R for Analytic Graphs: Learn How Data Visualization Can Improve In
 author: "Joseph Mienko, David Rothwell, Richard Smith, & Gregor Thomas"
 date: "Saturday, January 18, 2015"
 output:
-  beamer_presentation: default
   slidy_presentation: null
+  beamer_presentation: default
 ---
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -82,6 +82,10 @@ Steep(er) learning curve compared to, say, Excel or SPSS. This matters a lot if
 - You run statistics rarely.
 
 - You want a point and click interface. 
+
+- Restricted use data centers without R.
+
+- Latent variable models (at least complex models (e.g. latent growth curves, latent class analysis, multilevel latent variable models)).
 
 # Where Can you Get R?
 <!---
@@ -352,7 +356,7 @@ zp2 <- ggplot(allModelFrame2, aes(colour = ord.model)) +
   theme(panel.grid= element_line(color = "gray70")) +
   labs(title = "Replication Shiovitz et al 2010, Table 3",
        x = "",
-       y = "Odds Ratios") 
+       y = "Coefficients") 
 zp2
 ```
 
@@ -429,13 +433,35 @@ dat <- read.csv("dat.csv")
 
 - To export use write.dta(), write.spss(), write.csv(), or write.dbf().
 
+
+# A practical example - Some basic R commands.
+<!---
+Joe Slide
+-->
+
+- The dollar sign (`$`), brackets (`[,]`), and colons (`:`).
+
+```{r}
+dat$eps_rank[1:5]
+dat[5,4]
+```
+
+- The arrow (`<-`).
+
+```{r}
+dat$hi <- "hi joe"
+dat$hi[1:5]
+```
+
+
+
 # A practical example - Choose a predictor of interest $x_c$.
 <!---
 Joe Slide
 -->
 ```{r, fig.width=3, fig.height=2, warning=FALSE, message=FALSE}
 #looking at age of child at episode begin
-require(ggplot2)
+library(ggplot2)
 ggplot(dat, aes(x=age_eps_begin)) + 
   geom_histogram(binwidth = 1)
 ```
@@ -485,10 +511,6 @@ Joe Slide
 ## Prep the data
 
 ```{r, fig.width=6, fig.height=3, warning=FALSE, message=FALSE}
-# easy to load external packages
-# install.packages("nnet") # install once
-require(nnet)             # load every time
-
 # relevel our outcome variable
 dat$outcome_rl <- relevel(dat$outcome
                           , ref = "Emancipation")
@@ -504,6 +526,10 @@ Joe Slide
 ## Run the model
 
 ```{r, warning=FALSE, message=FALSE}
+# easy to load external packages
+# install.packages("nnet") # install once
+library(nnet)             # load every time
+
 # run the multinomial model
 model <- multinom(outcome_rl ~ age_eps_begin + 
                    eps_rank 
@@ -531,6 +557,7 @@ Joe Slide
 
 ```{r, warning=FALSE, message=FALSE}
 #run the multinomial model
+model$wts
 pe <- model$wts[c(6,7,8,10,11,12,14,15,16)]
 pe[1:3]
 pe[4:6]
@@ -554,7 +581,7 @@ vc <- solve(model$Hess)
 ```{r, warning=FALSE, message=FALSE}
 #load a package which contains a multivariate normal 
 #sampling function
-require(MASS)
+library(MASS)
 #assign a variable for the number of simulations
 sims <- 10000
 #draw the indicates number of beta simulates 
@@ -582,7 +609,7 @@ Joe Slide
 <!---
 Joe Slide
 -->
-## Get data read for `simcf`
+## Get data ready for `simcf`
 
 - Re-arrange simulates to array format
 
@@ -608,7 +635,7 @@ Joe Slide
 - Load `simcf` and use the `cfFactorial()` function to set specific values for simulation. 
 
 ```{r, warning=FALSE, message=FALSE}
-require(simcf)
+library(simcf)
 xhyp <- cfFactorial(age = agerange
                     ,ep_rank = mean(dat$eps_rank))
 ```
@@ -691,6 +718,18 @@ Joe Slide
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
 p2
 ```
+
+# Review of Our Steps
+
+1. Choose a predictor of interest (we choose age at removal).
+
+2. Estimate a model for our outcome of interest (we choose permanency outcomes using multinomial logistic regression).
+
+3. Use the information from the model to simulate the model results using a multivariate normal distribution (we use `mvrnorm()` from the `MASS` package).
+
+4. Calculate expected outcomes based on each set of simulated parameters (we do this with `simcf`). 
+
+5. Calculate summary statistics for each level of our predictor of interest (age) we also do this with `simcf`.
 
 # Moving Forward
 <!---
