@@ -777,6 +777,19 @@ p2
 
 5. Calculate summary statistics for each level of our predictor of interest (age) (we also do this with `simcf`).
 
+# Some Other Examples
+
+## Some of our blog entries. 
+
+- [Mapping Placement Mobility](http://partnersforourchildren.org/about-us/blog/family-home-foster-home-how-far-do-foster-children-move)
+- [Timing of CPS Referrals](http://partnersforourchildren.org/about-us/blog/does-referral-time-matter)
+
+## Some more `ggplot` examples. 
+
+- [`geom_smooth()`](http://docs.ggplot2.org/0.9.3.1/geom_smooth.html)
+- [`geom_violin()`](http://docs.ggplot2.org/0.9.3.1/geom_violin.html)
+
+
 # Moving Forward
 <!---
 Joe Slide
